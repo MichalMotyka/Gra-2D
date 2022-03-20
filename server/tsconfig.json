@@ -1,0 +1,22 @@
+{
+  "compilerOptions":
+  { "noImplicitAny": true, /* znaczy że trzeba podawać typ (false nie trzeba)*/
+    "preserveConstEnums": true, /* pozwala robic enumy */
+    "sourceMap": true, /* sourceMap pokazuje np. że błąd zrobiłem w typescript a nie js (do debugowania) */
+//    "strict": true,
+//    "strictPropertyInitialization": true,
+//    "strictFunctionTypes": true,
+//    "strictNullChecks": true,
+    "strictBindCallApply": true,
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
+    "target": "ES6", /* */
+    "downlevelIteration": true, /* umożliwia działanie pętli nowoczesnych  np (forof forin) */
+    "lib": ["dom", "es6", "dom.iterable"], /* w jakim jestesmy aktualnie srodowisku */
+    "outDir": "dist", /* wyjściowy folder (gdzie sie ma przekompilowac) */
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true, // te dwa do dekoratorów
+    "moduleResolution": "Node" //jak chce uzywać nodowych modułów
+  }
+}
+
