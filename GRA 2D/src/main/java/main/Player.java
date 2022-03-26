@@ -1,9 +1,5 @@
 package main;
 
-
-import main.GamePanel;
-import  main.KeyHandler;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -13,8 +9,9 @@ public class Player extends Entity {
     GamePanel gp;
     KeyHandler keyHandler;
     BufferedImage image;
+    ConsoleCommand consoleCommand = new ConsoleCommand();
 
-    public Player(GamePanel gp,KeyHandler keyHandler){
+    public Player(GamePanel gp, KeyHandler keyHandler) {
         this.gp = gp;
         this.keyHandler = keyHandler;
         setDefaultValues();
@@ -22,59 +19,95 @@ public class Player extends Entity {
 
 
     }
-    public void getPalyerImage(){
+
+    public void getPalyerImage() {
         try {
-            stand = ImageIO.read(ClassLoader.getSystemResourceAsStream("pixil-frame-0.png"));
-            lewo =ImageIO.read(ClassLoader.getSystemResourceAsStream("pixil-frame-0-lewo.png"));
-        }catch (IOException e){
+            stand = ImageIO.read(ClassLoader.getSystemResourceAsStream("proproprotyp.png"));
+            particle1 = ImageIO.read(ClassLoader.getSystemResourceAsStream("particle1.png"));
+            particle2 = ImageIO.read(ClassLoader.getSystemResourceAsStream("particle2.png"));
+            lewo = ImageIO.read(ClassLoader.getSystemResourceAsStream("pixil-frame-0-lewo.png"));
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    public void  setDefaultValues(){
+
+    public void setDefaultValues() {
         x = 100;
-        y = 500;
-         playerSpeed=PlayerStats.speed;
-         jumpForce = PlayerStats.jumpForce;
-         gravity = PlayerStats.gravity;
-         jump = false;
-         grounded = true;
-         jumpStart = 0;
+        y = 510;
+        playerSpeed = PlayerStats.speed;
+        jumpForce = PlayerStats.jumpForce;
+        gravity = PlayerStats.gravity;
+        jump = false;
+        grounded = true;
+        ground = 730;
+        jumpStart = 0;
     }
-    public void update(){
-        if(keyHandler.upPressed == true && grounded){
+
+    public void update() {
+        //System.out.println("X:"+(x+worldMoveX)+"Y:"+y);
+
+        if (keyHandler.upPressed == true && grounded) {
             jumpStart = y;
             jump = true;
             grounded = false;
         }
-        if(keyHandler.downPressed == true){
-          //  y +=playerSpeed;
+        if (keyHandler.downPressed == true) {
+            //  y +=playerSpeed;
         }
-        if(keyHandler.leftPressed == true){
-            x -=playerSpeed;
-            image= lewo;
-        }
-        if(keyHandler.rightPressed == true){
-            x +=playerSpeed;
+        if (keyHandler.leftPressed == true) {
+            // x -=playerSpeed;
+            worldMoveX = worldMoveX + playerSpeed;
             image = stand;
         }
-        if(jump==false && y <= 760 ){
-            y += gravity;
+        if (keyHandler.rightPressed == true) {
+            switch (Config.ActiveMap){
+                case "MapaTestowa":
+                    MapaTestowa.drawColider();
+                    break;
+            }
+
+
+            //  x +=playerSpeed;
+            if(!solid) {
+                worldMoveX = worldMoveX - playerSpeed;
+                image = stand;
+               // consoleCommand.getX();
+            }
+
+
         }
-        if(jump==true){
-            y -=gravity;
-            if(y == jumpStart-jumpForce){
+
+        if (jump == false && y <= ground) {
+            y += gravity;
+
+            if(y> ground){
+                y =ground;
+            }
+
+        }
+        if (jump == true) {
+            y -= gravity;
+            if (y <= jumpStart - jumpForce) {
                 jump = false;
+
             }
         }
-        if(y >= 760){
-            grounded =true;
+        if (y >= ground) {
+            grounded = true;
+            fall = true;
         }
 
-    }
-    public void draw(Graphics2D g2){
-        g2.drawImage(image,x,y,90, 90,null);
 
     }
+
+    public int getWorldMove() {
+        return worldMoveX;
+    }
+
+    public void draw(Graphics2D g2) {
+        g2.drawImage(image, x, y, 90, 90, null);
+        }
+
 
 
 }
