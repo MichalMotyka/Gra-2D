@@ -8,7 +8,7 @@ usersRouter
         const { name } = req.body;
 
         if(!name) {
-            res.status(400).json({message: "Nie ma takiego imienia użytkownika."})
+            res.status(400).json({message: "Nie podano imienia użytkownika."})
         } else {
             const user = await UserRecord.getOne(name);
             res.status(200).json({name: name, id: user.id, points: user.points})
@@ -31,6 +31,9 @@ usersRouter
                 });
         }
     })
-    .patch('/update-points', (req, res) => {
+    .patch('/update-points', async (req, res) => {
+        const { id, points } = req.body;
 
+        await UserRecord.update(id, points);
+        res.status(200).json({message: `Pomyślnie zaktualizowano punkty gracza. Nowa wartość: ${points}`});
     });

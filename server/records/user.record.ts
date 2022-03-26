@@ -34,6 +34,13 @@ export class UserRecord {
         return (this.id as string);
     }
 
+    static async update(id: string, points: number): Promise<void> {
+        await pool.execute("UPDATE `users` SET `points` = :points WHERE `id` = :id", {
+            points,
+            id
+        });
+    }
+
     static async isNameTaken(name: string): Promise<boolean> {
         const [results] = await pool.execute("SELECT * FROM `users` WHERE `name` = :name", {
             name
