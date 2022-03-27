@@ -32,7 +32,7 @@ public class coliderController {
         if ((arList.get(0).get(0) + Player.worldMoveX <= Player.x + 80 - Player.playerSpeed || arList.get(0).get(0) + Player.worldMoveX >= Player.x + 80 + Player.playerSpeed) && arList.get(0).get(1) < Player.y) {
             Player.solid = false;
         }
-        if ((!enter && arList.get(0).size() == 2) || enter) {
+        if (enter || arList.get(0).size() == 2) {
             if ((arList.get(0).get(0) + Player.worldMoveX >= Player.x - 80 - Player.playerSpeed && arList.get(0).get(0) + Player.worldMoveX <= Player.x - 80 + PlayerStats.playersize) && arList.get(0).get(1) > Player.y) {
                 enter = !enter;
                 Player.solid = false;

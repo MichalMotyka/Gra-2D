@@ -1,5 +1,7 @@
 package main;
 
+import main.Sound.SoundEffects;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -10,12 +12,15 @@ public class Player extends Entity {
     KeyHandler keyHandler;
     BufferedImage image;
     MapaTestowa mt = new MapaTestowa();
+    SoundEffects eSound;
+
 
     public Player(GamePanel gp, KeyHandler keyHandler) {
         this.gp = gp;
         this.keyHandler = keyHandler;
         setDefaultValues();
         getPalyerImage();
+        eSound = new SoundEffects();
 
 
     }
@@ -49,6 +54,8 @@ public class Player extends Entity {
             jumpStart = y;
             jump = true;
             grounded = false;
+            eSound.setFile(0);
+            eSound.play();
         }
         if (keyHandler.downPressed == true) {
             //  y +=playerSpeed;

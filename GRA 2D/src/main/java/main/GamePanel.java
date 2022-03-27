@@ -1,11 +1,16 @@
 package main;
 
+import main.Sound.SoundEffects;
+import main.Sound.SoundMaps;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
 public class GamePanel extends JPanel implements Runnable {
     //Zmienne odpowiedajace za rozdzielczość oraz maksymalna liczbe fps
+    SoundEffects eSound;
+    SoundMaps mSound;
     final int originalTitleSize = 16;
     final int scale = 3;
     public final int titleSize = originalTitleSize * scale;
@@ -34,6 +39,10 @@ public class GamePanel extends JPanel implements Runnable {
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
+        eSound = new SoundEffects();
+        mSound = new SoundMaps();
+        mSound.setFile(0);
+        mSound.play();
     }
 
     //funkcja odpowiedzialna za utrzymanie klatkaż w odpowiedniej wartosci

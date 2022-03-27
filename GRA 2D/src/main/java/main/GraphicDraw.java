@@ -25,13 +25,13 @@ public class GraphicDraw {
     //funckja odpowiedzialna za rysowanie obiektow powtarzalnych np trawa
     public static void DrawGroundObjects(Image objectImage,Graphics2D g2,int y){
         for (int x = 0; x < gamePanel.screenWidth - player.getWorldMove(); x += 40) {
-            g2.drawImage(objectImage, x + player.worldMoveX, y, null);
+            g2.drawImage(objectImage, x + Entity.worldMoveX, y, null);
         }
     }
     //funckja odpowiedzialna za rysowanie obiektow powtarzalnych np trawa wraz z skalla
     public static void DrawGoundObjectsWithScale(Image objectImage,Graphics2D g2,int y,int width,int height){
         for (int x = 0; x < gamePanel.screenWidth - player.getWorldMove(); x += 40) {
-            g2.drawImage(objectImage, x + player.worldMoveX, y, width, height, null);
+            g2.drawImage(objectImage, x + Entity.worldMoveX, y, width, height, null);
         }
     }
 }
