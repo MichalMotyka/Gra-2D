@@ -2,31 +2,23 @@ package main;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 
-public class MapaTestowa {
-    public static ArrayList<Integer> arList = new ArrayList<>();
+
+public class MapaTestowa implements MapInterface {
+    //zmienna przechowujaca dane czy colidery zostały załadowane
+    static boolean ColidersImported = false;
     static GamePanel gamePanel;
-    static Image drzewo;
-    static int[] drzewoLocaltion = {360, 560, 1500};
-    static int[] scianaLocation = {400};
-    static Image trawa;
-    static Image zemia;
-    static Image sciana;
-    static Image backgroundImage;
+    //definiowanie potrzebny zmiennych grafik
+    static BufferedImage drzewo,trawa,zemia,sciana,backgroundImage;
 
-
-    static boolean enter = true;
-    static Player player = new Player(null, null);
-
+    //importowanie grafik i gamepanelu
     static {
         try {
-            backgroundImage = ImageIO.read(new File("src/main/resources/tlo.png"));
             gamePanel = new GamePanel();
-            arList.addAll(Arrays.asList(400, 680, 670, 800, 1500, 690, 1590, 830));
+            backgroundImage = ImageIO.read(new File("src/main/resources/tlo.png"));
             trawa = ImageIO.read(new File("src/main/resources/trawa.png"));
             zemia = ImageIO.read(new File("src/main/resources/grassdirt.png"));
             drzewo = ImageIO.read(new File("src/main/resources/drzewo.png"));
@@ -35,54 +27,35 @@ public class MapaTestowa {
             e.printStackTrace();
         }
     }
+    //definiowanie lokalizacji obiektów na mapie
+    static int[][] drzewoLocaltion = {{1500,690,1500+drzewo.getWidth(null),PlayerStats.groundStart+70}};
+    static int[][] scianaLocation = {{400,690,400+sciana.getWidth(null),PlayerStats.groundStart+70}};
 
-
-    public static void drawColider() {
-        if (!enter) {
-            PlayerStats.playersize = 0;
-        } else {
-            PlayerStats.playersize = 160;
-        }
-        if ((arList.get(0) + Player.worldMoveX >= Player.x +80 - Player.playerSpeed && MapaTestowa.arList.get(0) + Player.worldMoveX <= Player.x + 80 + Player.playerSpeed) && MapaTestowa.arList.get(1) <= Player.y) {
-
-            Player.solid = true;
-        }
-        if ((MapaTestowa.arList.get(0) + Player.worldMoveX <= Player.x + 80 - Player.playerSpeed || MapaTestowa.arList.get(0) + Player.worldMoveX >= Player.x + 80 + Player.playerSpeed) && MapaTestowa.arList.get(1) < Player.y) {
-            Player.solid = false;
-        }
-        if ((MapaTestowa.arList.get(0) + Player.worldMoveX >= Player.x-80 - Player.playerSpeed && MapaTestowa.arList.get(0) + Player.worldMoveX <= Player.x -80+ PlayerStats.playersize) && MapaTestowa.arList.get(1) > Player.y) {
-            enter = !enter;
-            Player.solid = false;
-            Player.ground = MapaTestowa.arList.get(1) - 70;
-            if (MapaTestowa.arList.size() >= 4) {
-                MapaTestowa.arList.remove(0);
-                MapaTestowa.arList.remove(0);
-            }
-        }
-
+    //dodanie koliderów do poczekalni
+    public void addColiders(){
+        coliderController.addObjectColiderMap(scianaLocation);
+        coliderController.addObjectColiderMap(drzewoLocaltion);
+        coliderController.sortColiderMap();
     }
 
-    public static void draw(Graphics2D g2) {
-        for (int x = 0; x < 1280 - player.getWorldMove(); x += 40) {
-            g2.drawImage(zemia, x + player.worldMoveX, 820, null);
-            g2.drawImage(trawa, x + player.worldMoveX, 800, 50, 50, null);
+    //zaimportowanie coliderow oraz rysowanie ich co 1/60 sekundy
+    public  void drawColider(){
+        if(!ColidersImported){
+            ColidersImported = !ColidersImported;
+            addColiders();
         }
-        for (int x = 0; x <= drzewoLocaltion.length - 1; x++) {
-            if (drzewoLocaltion[x] <= gamePanel.screenWidth - player.getWorldMove() && drzewoLocaltion[x] >= -200 - player.getWorldMove()) {
-                g2.drawImage(drzewo, drzewoLocaltion[x] + player.getWorldMove(), 690, null);
-
-            }
-
-        }
-        for (int x = 0; x <= scianaLocation.length - 1; x++) {
-            if (scianaLocation[x] <= gamePanel.screenWidth - player.getWorldMove() && scianaLocation[x] >= -200 - player.getWorldMove()) {
-                g2.drawImage(sciana, scianaLocation[x] + player.getWorldMove(), 690, null);
-
-            }
-        }
+        coliderController.ColiderDrawing(coliderController.ColiderMap);
     }
 
-    public static void drawBackground(Graphics2D g2) {
-        g2.drawImage(backgroundImage, 0, 0, null);
+    //funkcja odpowiedzialana za rysowanie obiektow na mapie
+    public  void draw(Graphics2D g2) {
+        GraphicDraw.DrawGroundObjects(zemia,g2,820);
+        GraphicDraw.DrawGoundObjectsWithScale(trawa,g2,780,50,50);
+        GraphicDraw.DrawObjects(drzewoLocaltion,drzewo,g2);
+        GraphicDraw.DrawObjects(scianaLocation,sciana,g2);
+    }
+    //funckja odpowiedzialna za rysowanie backgroundu
+    public  void drawBackground(Graphics2D g2) {
+        g2.drawImage(backgroundImage, 0,0, null);
     }
 }

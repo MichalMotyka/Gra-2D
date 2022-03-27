@@ -2,7 +2,7 @@ package main;
 
 import javax.swing.*;
 import java.io.IOException;
-
+//Głowna metoda tworząca ramke razem z oknem
 public class main {
     public static void main(String args[]) throws IOException {
         JFrame window = new JFrame();

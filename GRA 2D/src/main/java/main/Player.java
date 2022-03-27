@@ -9,7 +9,7 @@ public class Player extends Entity {
     GamePanel gp;
     KeyHandler keyHandler;
     BufferedImage image;
-    ConsoleCommand consoleCommand = new ConsoleCommand();
+    MapaTestowa mt = new MapaTestowa();
 
     public Player(GamePanel gp, KeyHandler keyHandler) {
         this.gp = gp;
@@ -19,7 +19,7 @@ public class Player extends Entity {
 
 
     }
-
+    //import grafik gracza
     public void getPalyerImage() {
         try {
             stand = ImageIO.read(ClassLoader.getSystemResourceAsStream("proproprotyp.png"));
@@ -30,7 +30,7 @@ public class Player extends Entity {
             e.printStackTrace();
         }
     }
-
+    //statystyki gracza które ulegaja zmianie w trakcie gry
     public void setDefaultValues() {
         x = 100;
         y = 510;
@@ -43,9 +43,8 @@ public class Player extends Entity {
         jumpStart = 0;
     }
 
+    //funkcja odpowiedzialna za poruszanie się oraz inne odziaływania fizyczne na gracza np upadek
     public void update() {
-        //System.out.println("X:"+(x+worldMoveX)+"Y:"+y);
-
         if (keyHandler.upPressed == true && grounded) {
             jumpStart = y;
             jump = true;
@@ -62,12 +61,10 @@ public class Player extends Entity {
         if (keyHandler.rightPressed == true) {
             switch (Config.ActiveMap){
                 case "MapaTestowa":
-                    MapaTestowa.drawColider();
+                    mt.drawColider();
                     break;
             }
 
-
-            //  x +=playerSpeed;
             if(!solid) {
                 worldMoveX = worldMoveX - playerSpeed;
                 image = stand;
@@ -99,11 +96,11 @@ public class Player extends Entity {
 
 
     }
-
+    //funckaj zwraca o ile pxl przemiescil sie swiat
     public int getWorldMove() {
         return worldMoveX;
     }
-
+    //funckja odpowiedzialna zarysowanie gracza w odpowiedniej pozie/animacji
     public void draw(Graphics2D g2) {
         g2.drawImage(image, x, y, 90, 90, null);
         }

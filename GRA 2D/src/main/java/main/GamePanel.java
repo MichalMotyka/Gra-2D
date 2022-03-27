@@ -5,6 +5,7 @@ import java.awt.*;
 import java.io.IOException;
 
 public class GamePanel extends JPanel implements Runnable {
+    //Zmienne odpowiedajace za rozdzielczość oraz maksymalna liczbe fps
     final int originalTitleSize = 16;
     final int scale = 3;
     public final int titleSize = originalTitleSize * scale;
@@ -17,12 +18,10 @@ public class GamePanel extends JPanel implements Runnable {
 
     KeyHandler keyHandler = new KeyHandler();
     Player player = new Player(this, keyHandler);
+    MapaTestowa mt = new MapaTestowa();
     Thread gameThread;
 
-    int playerX = 100;
-    int playerY = 100;
-
-
+    //funkcja odpowiadająca za utworzenie pustego podstawego panelu, w tym momęcie podpinane sa kontrolery klawiszy
     public GamePanel() throws IOException {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
@@ -31,14 +30,14 @@ public class GamePanel extends JPanel implements Runnable {
         this.setFocusable(true);
 
     }
-
+    //rozpoczyna gre
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
     }
 
+    //funkcja odpowiedzialna za utrzymanie klatkaż w odpowiedniej wartosci
     public void run() {
-
         double drwaInterval = 1000000000 / FPS;
         double delta = 0;
         long lastTime = System.nanoTime();
@@ -57,30 +56,24 @@ public class GamePanel extends JPanel implements Runnable {
                 delta--;
                 drawCount++;
             }
-
-
         }
     }
-
+    //funckaja wykonujaca się raz na 1/60 sekundy
     public void update() {
         player.update();
-
-
-
     }
-
+    //funckja odpowiedzialna za rysowanie komponentów na ekranie
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.setColor(Color.ORANGE);
         Graphics2D g2 = (Graphics2D) g;
         switch (Config.ActiveMap){
             case "MapaTestowa":
-                MapaTestowa.drawBackground(g2);
-                g.fillRect(100, 100, 100, 100);
-                g.setColor(brown);
-                g.fillRect(0, 862, 1280, 100);
-                MapaTestowa.draw(g2);
-
+                mt.drawBackground(g2);
+                  g.fillRect(100, 100, 100, 100);
+                  g.setColor(brown);
+                  g.fillRect(0, 862, screenWidth, 100);
+                mt.draw(g2);
         }
 
         player.draw(g2);
