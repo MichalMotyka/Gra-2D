@@ -1,8 +1,6 @@
 package main;
 
-
-import main.GamePanel;
-import  main.KeyHandler;
+import main.Sound.SoundEffects;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -13,68 +11,107 @@ public class Player extends Entity {
     GamePanel gp;
     KeyHandler keyHandler;
     BufferedImage image;
+    MapaTestowa mt = new MapaTestowa();
+    SoundEffects eSound;
 
-    public Player(GamePanel gp,KeyHandler keyHandler){
+
+    public Player(GamePanel gp, KeyHandler keyHandler) {
         this.gp = gp;
         this.keyHandler = keyHandler;
         setDefaultValues();
         getPalyerImage();
+        eSound = new SoundEffects();
 
 
     }
-    public void getPalyerImage(){
+    //import grafik gracza
+    public void getPalyerImage() {
         try {
-            stand = ImageIO.read(ClassLoader.getSystemResourceAsStream("pixil-frame-0.png"));
-            lewo =ImageIO.read(ClassLoader.getSystemResourceAsStream("pixil-frame-0-lewo.png"));
-        }catch (IOException e){
+            stand = ImageIO.read(ClassLoader.getSystemResourceAsStream("proproprotyp.png"));
+            particle1 = ImageIO.read(ClassLoader.getSystemResourceAsStream("particle1.png"));
+            particle2 = ImageIO.read(ClassLoader.getSystemResourceAsStream("particle2.png"));
+            lewo = ImageIO.read(ClassLoader.getSystemResourceAsStream("pixil-frame-0-lewo.png"));
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    public void  setDefaultValues(){
+    //statystyki gracza które ulegaja zmianie w trakcie gry
+    public void setDefaultValues() {
         x = 100;
-        y = 500;
-         playerSpeed=PlayerStats.speed;
-         jumpForce = PlayerStats.jumpForce;
-         gravity = PlayerStats.gravity;
-         jump = false;
-         grounded = true;
-         jumpStart = 0;
+        y = 510;
+        playerSpeed = PlayerStats.speed;
+        jumpForce = PlayerStats.jumpForce;
+        gravity = PlayerStats.gravity;
+        jump = false;
+        grounded = true;
+        ground = 730;
+        jumpStart = 0;
     }
-    public void update(){
-        if(keyHandler.upPressed == true && grounded){
+
+    //funkcja odpowiedzialna za poruszanie się oraz inne odziaływania fizyczne na gracza np upadek
+    public void update() {
+        if (keyHandler.upPressed == true && grounded) {
             jumpStart = y;
             jump = true;
             grounded = false;
+            eSound.setFile(0);
+            eSound.play();
         }
-        if(keyHandler.downPressed == true){
-          //  y +=playerSpeed;
+        if (keyHandler.downPressed == true) {
+            //  y +=playerSpeed;
         }
-        if(keyHandler.leftPressed == true){
-            x -=playerSpeed;
-            image= lewo;
-        }
-        if(keyHandler.rightPressed == true){
-            x +=playerSpeed;
+        if (keyHandler.leftPressed == true) {
+            // x -=playerSpeed;
+            worldMoveX = worldMoveX + playerSpeed;
             image = stand;
         }
-        if(jump==false && y <= 760 ){
-            y += gravity;
+        if (keyHandler.rightPressed == true) {
+            switch (Config.ActiveMap){
+                case "MapaTestowa":
+                    mt.drawColider();
+                    break;
+            }
+
+            if(!solid) {
+                worldMoveX = worldMoveX - playerSpeed;
+                image = stand;
+               // consoleCommand.getX();
+            }
+
+
         }
-        if(jump==true){
-            y -=gravity;
-            if(y == jumpStart-jumpForce){
+
+        if (jump == false && y <= ground) {
+            y += gravity;
+
+            if(y> ground){
+                y =ground;
+            }
+
+        }
+        if (jump == true) {
+            y -= gravity;
+            if (y <= jumpStart - jumpForce) {
                 jump = false;
+
             }
         }
-        if(y >= 760){
-            grounded =true;
+        if (y >= ground) {
+            grounded = true;
+            fall = true;
         }
 
-    }
-    public void draw(Graphics2D g2){
-        g2.drawImage(image,x,y,90, 90,null);
 
     }
+    //funckaj zwraca o ile pxl przemiescil sie swiat
+    public int getWorldMove() {
+        return worldMoveX;
+    }
+    //funckja odpowiedzialna zarysowanie gracza w odpowiedniej pozie/animacji
+    public void draw(Graphics2D g2) {
+        g2.drawImage(image, x, y, 90, 90, null);
+        }
+
 
 
 }
