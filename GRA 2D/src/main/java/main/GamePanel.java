@@ -73,18 +73,30 @@ public class GamePanel extends JPanel implements Runnable {
     }
     //funckja odpowiedzialna za rysowanie komponentów na ekranie
     public void paintComponent(Graphics g) {
+        if (System.currentTimeMillis() <= end){
+            fpscounter ++;
+        }else{
+            System.out.println("FPS: "+fpscounter);
+            fpscounter=0;
+            end = System.currentTimeMillis()+1000;
+        }
         super.paintComponent(g);
         g.setColor(Color.ORANGE);
         Graphics2D g2 = (Graphics2D) g;
-        switch (Config.ActiveMap){
+      switch (Config.ActiveMap){
             case "MapaTestowa":
                 mt.drawBackground(g2);
                   g.fillRect(100, 100, 100, 100);
                   g.setColor(brown);
                   g.fillRect(0, 862, screenWidth, 100);
-                mt.draw(g2);
+                try {
+                    mt.draw(g2);
+                    mt.drawColider();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
         }
-
+        mt.drawParticle(g2);
         player.draw(g2);
         g2.dispose();
         g.dispose();

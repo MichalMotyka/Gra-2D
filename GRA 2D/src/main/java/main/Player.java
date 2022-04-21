@@ -66,41 +66,38 @@ public class Player extends Entity {
             image = stand;
         }
         if (keyHandler.rightPressed == true) {
-            switch (Config.ActiveMap){
-                case "MapaTestowa":
-                    mt.drawColider();
-                    break;
-            }
-
             if(!solid) {
                 worldMoveX = worldMoveX - playerSpeed;
                 image = stand;
-               // consoleCommand.getX();
             }
-
-
+        }
+        if(keyHandler.menuPressed == true){
+            popupmenu = true;
         }
 
-        if (jump == false && y <= ground) {
+        if (jump == false && y < ground) {
             y += gravity;
-
-            if(y> ground){
+            if(y>= ground){
+                Particles.addNewParticle(x+50,ground+90);
                 y =ground;
             }
 
         }
         if (jump == true) {
+            if (!ceilingsolid){
             y -= gravity;
             if (y <= jumpStart - jumpForce) {
                 jump = false;
-
+              }
             }
-        }
+            else
+                jump=false;
+            }
+
         if (y >= ground) {
             grounded = true;
             fall = true;
         }
-
 
     }
     //funckaj zwraca o ile pxl przemiescil sie swiat
