@@ -71,9 +71,9 @@ public class Player extends Entity {
                 image = stand;
             }
         }
-        if(keyHandler.menuPressed == true){
-            popupmenu = true;
-        }
+        // if(keyHandler.menuPressed == true){
+        //     popupmenu = true;
+        // }
 
         if (jump == false && y < ground) {
             y += gravity;

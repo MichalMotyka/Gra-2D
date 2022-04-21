@@ -11,7 +11,7 @@ public class Entity {
     int jumpForce;
     int gravity, particlecounter=0,particlenum=0;
     boolean jump;
-    static boolean solid=false;
+    static boolean solid=false, ceilingsolid=false;
     boolean fall;
     boolean grounded;
     int jumpStart ;
