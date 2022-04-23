@@ -34,6 +34,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
         this.setDoubleBuffered(true);
+        this.setLayout(new GridLayout(2, 1));
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
 
@@ -87,6 +88,9 @@ public class GamePanel extends JPanel implements Runnable {
         g.setColor(Color.ORANGE);
         Graphics2D g2 = (Graphics2D) g;
       switch (Config.ActiveMap){
+          case "Menu":
+
+              break;
             case "MapaTestowa":
                 mt.drawBackground(g2);
                   g.fillRect(100, 100, 100, 100);

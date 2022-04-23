@@ -4,7 +4,6 @@ import {usersRouter} from "./routers/users";
 
 import './utils/db'; // połączenie z baza danych MySql
 
-
 const app = express();
 
 app.use(json());
