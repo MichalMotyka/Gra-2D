@@ -10,7 +10,7 @@ import java.util.Map;
 public class Http {
 
     public static String registerUser(String username) throws IOException {
-        URL url = new URL("http://localhost:3000/users/register");
+        URL url = new URL("https://a2dgame.herokuapp.com/users/register");
         Map<String, Object> params = new LinkedHashMap<>();
         params.put("name", username);
 
@@ -45,7 +45,7 @@ public class Http {
     }
 
     public static String loginUser(String username) throws IOException {
-        URL url = new URL("http://localhost:3000/users/login");
+        URL url = new URL("https://a2dgame.herokuapp.com/users/login");
         Map<String, Object> params = new LinkedHashMap<>();
         params.put("name", username);
 

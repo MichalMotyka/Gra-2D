@@ -1,13 +1,17 @@
 package main;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
+import java.awt.Graphics;
 
 public class Menu extends JPanel {
 
+    JLabel logo = new JLabel("Happy Jump Square");
     JButton loginBtn = new JButton("Zaloguj się");
     JButton registerBtn = new JButton("Zarejestruj się");
     final int originalTitleSize = 16;
@@ -21,25 +25,42 @@ public class Menu extends JPanel {
 
     public Menu() {
         GridBagConstraints gbc = new GridBagConstraints();
-        this.setLayout(new GridBagLayout());
+//        this.setLayout(new GridBagLayout());
+        this.setLayout(null);
+        logo.setFont(new Font("Serif", Font.PLAIN, 42));
 
+        loginBtn.setBounds(475, 150, 250, 60);
+        registerBtn.setBounds(475, 400, 250, 60);
+        logo.setBounds(475, 50, 250, 50);
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
-        this.setBackground(Color.WHITE);
+        this.setBackground(Color.GRAY);
         loginBtn.setBackground(new Color(255, 204, 179));
         registerBtn.setBackground(new Color(255, 204, 179));
-        loginBtn.setPreferredSize(new Dimension(150,40));
-        registerBtn.setPreferredSize(new Dimension(150,40));
+//        loginBtn.setPreferredSize(new Dimension(250,60));
+//        registerBtn.setPreferredSize(new Dimension(250,60));
 
-        gbc.fill = GridBagConstraints.NORTH;
-        gbc.gridx = 0;
-        gbc.gridy=0;
+//        gbc.fill = GridBagConstraints.NORTH;
+//        gbc.gridx = 0;
+//        gbc.gridy=0;;
+        this.add(logo);
         this.add(loginBtn, gbc);
-        gbc.fill = GridBagConstraints.CENTER;
-        gbc.gridx = 0;
-        gbc.gridy=2;
+//        gbc.fill = GridBagConstraints.CENTER;
+//        gbc.gridx = 0;
+//        gbc.gridy=2;
         this.add(registerBtn, gbc);
 //        this.setLayout(new GridLayout(2, 1));
         this.setFocusable(true);
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g); // paint the background image and scale it to fill the entire space
+        try {
+            Image img = ImageIO.read(new File("src/main/resources/unknown.png"));
+            g.drawImage(img, 0 ,0, null);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     void addListenerToLoginBtn(JFrame frame, Menu panelToRemove) {
