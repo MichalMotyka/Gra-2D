@@ -104,6 +104,10 @@ public class Player extends Entity {
     public int getWorldMove() {
         return worldMoveX;
     }
+    public void drawParticle(Graphics2D g2){
+        Particles.DrawParticle(g2);
+        Particles.drawRunParticle(g2);
+    }
     //funckja odpowiedzialna zarysowanie gracza w odpowiedniej pozie/animacji
     public void draw(Graphics2D g2) {
         g2.drawImage(image, x, y, 90, 90, null);

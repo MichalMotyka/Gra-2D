@@ -1,32 +1,27 @@
 package main;
 
-import main.Sound.SoundEffects;
-import main.Sound.SoundMaps;
-
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
 public class GamePanel extends JPanel implements Runnable {
     //Zmienne odpowiedajace za rozdzielczość oraz maksymalna liczbe fps
-    SoundEffects eSound;
-    SoundMaps mSound;
     final int originalTitleSize = 16;
     final int scale = 3;
     public final int titleSize = originalTitleSize * scale;
     final int maxScreenCol = 25;
-    long t = System.currentTimeMillis();
-    long end = t+1000;
-    int fpscounter = 0 ;
     final int maxScreenRow = 20;
     final int screenWidth = titleSize * maxScreenCol;
     final int screenHeight = titleSize * maxScreenRow;
     int FPS = 60;
+    long t = System.currentTimeMillis();
+    long end = t+1000;
     Color brown = new Color(110, 38, 14);
-
+    int fpscounter = 0 ;
     KeyHandler keyHandler = new KeyHandler();
     Player player = new Player(this, keyHandler);
-    MapaPoziom1 mk = new MapaPoziom1();
+    MapaTestowa mt = new MapaTestowa();
+    endlessMode endlessMode = new endlessMode();
     Thread gameThread;
 
     //funkcja odpowiadająca za utworzenie pustego podstawego panelu, w tym momęcie podpinane sa kontrolery klawiszy
@@ -34,7 +29,6 @@ public class GamePanel extends JPanel implements Runnable {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
         this.setDoubleBuffered(true);
-        this.setLayout(new GridLayout(2, 1));
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
 
@@ -43,10 +37,6 @@ public class GamePanel extends JPanel implements Runnable {
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
-        eSound = new SoundEffects();
-        mSound = new SoundMaps();
-        mSound.setFile(0);
-        mSound.play();
     }
 
     //funkcja odpowiedzialna za utrzymanie klatkaż w odpowiedniej wartosci
@@ -64,15 +54,20 @@ public class GamePanel extends JPanel implements Runnable {
             timer += (currentTime - lastTime);
             lastTime = currentTime;
             if (delta >= 1) {
-                update();
+                try {
+                    update();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
                 repaint();
                 delta--;
                 drawCount++;
             }
         }
+
     }
     //funckaja wykonujaca się raz na 1/60 sekundy
-    public void update() {
+    public void update() throws IOException {
         player.update();
     }
     //funckja odpowiedzialna za rysowanie komponentów na ekranie
@@ -87,36 +82,36 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
         g.setColor(Color.ORANGE);
         Graphics2D g2 = (Graphics2D) g;
-        System.out.println(Config.ActiveMap);
         switch (Config.ActiveMap){
-            case "MapaPoziom1":
-                mk.drawBackground(g2);
-                g.fillRect(100, 100, 100, 100);
-                g.setColor(brown);
-                g.fillRect(0, 862, screenWidth, 100);
+            case "MapaTestowa":
+                mt.drawBackground(g2);
+                  g.fillRect(100, 100, 100, 100);
+                  g.setColor(brown);
+                  g.fillRect(0, 862, screenWidth, 100);
                 try {
-                    mk.draw(g2);
-                    mk.drawColider();
+                    mt.draw(g2);
+                    mt.drawColider();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 break;
-////            case "Endles":
-//                try {
-////                    endlessMode.drawBackground(g2);
-////                    endlessMode.draw(g2);
-////                    endlessMode.drawColider();
-//                }catch (IOException e){
-//                    e.printStackTrace();
-//                }
+            case "Endles":
+                try {
+                    endlessMode.drawBackground(g2);
+                    endlessMode.draw(g2);
+                    endlessMode.drawColider();
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+
         }
-//        player.drawParticle(g2);
+        player.drawParticle(g2);
         player.draw(g2);
 
         g2.dispose();
-        Points points=new Points();
-        points.updatepoints();
         g.dispose();
+        Points points = new Points();
+        points.updatepoints();
     }
 
 }
