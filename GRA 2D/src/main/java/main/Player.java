@@ -27,7 +27,7 @@ public class Player extends Entity {
     //import grafik gracza
     public void getPalyerImage() {
         try {
-            stand = ImageIO.read(ClassLoader.getSystemResourceAsStream("proproprotyp.png"));
+            stand = ImageIO.read(ClassLoader.getSystemResourceAsStream("skullhead1.png"));
             particle1 = ImageIO.read(ClassLoader.getSystemResourceAsStream("particle1.png"));
             particle2 = ImageIO.read(ClassLoader.getSystemResourceAsStream("particle2.png"));
             lewo = ImageIO.read(ClassLoader.getSystemResourceAsStream("pixil-frame-0-lewo.png"));

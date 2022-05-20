@@ -26,7 +26,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     KeyHandler keyHandler = new KeyHandler();
     Player player = new Player(this, keyHandler);
-    MapaTestowa mt = new MapaTestowa();
+    MapaPoziom1 mk = new MapaPoziom1();
     Thread gameThread;
 
     //funkcja odpowiadająca za utworzenie pustego podstawego panelu, w tym momęcie podpinane sa kontrolery klawiszy
@@ -87,25 +87,35 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
         g.setColor(Color.ORANGE);
         Graphics2D g2 = (Graphics2D) g;
-      switch (Config.ActiveMap){
-          case "Menu":
-
-              break;
-            case "MapaTestowa":
-                mt.drawBackground(g2);
-                  g.fillRect(100, 100, 100, 100);
-                  g.setColor(brown);
-                  g.fillRect(0, 862, screenWidth, 100);
+        System.out.println(Config.ActiveMap);
+        switch (Config.ActiveMap){
+            case "MapaPoziom1":
+                mk.drawBackground(g2);
+                g.fillRect(100, 100, 100, 100);
+                g.setColor(brown);
+                g.fillRect(0, 862, screenWidth, 100);
                 try {
-                    mt.draw(g2);
-                    mt.drawColider();
+                    mk.draw(g2);
+                    mk.drawColider();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                break;
+////            case "Endles":
+//                try {
+////                    endlessMode.drawBackground(g2);
+////                    endlessMode.draw(g2);
+////                    endlessMode.drawColider();
+//                }catch (IOException e){
+//                    e.printStackTrace();
+//                }
         }
-        mt.drawParticle(g2);
+//        player.drawParticle(g2);
         player.draw(g2);
+
         g2.dispose();
+        Points points=new Points();
+        points.updatepoints();
         g.dispose();
     }
 

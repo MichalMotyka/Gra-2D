@@ -82,7 +82,7 @@ public class Menu extends JPanel {
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
                     }
-                    Config.ActiveMap = "MapaTestowa";
+//                    Config.ActiveMap = "MapaTestowa";
                     frame.add(gamePanel);
                     frame.repaint();
                     frame.revalidate();

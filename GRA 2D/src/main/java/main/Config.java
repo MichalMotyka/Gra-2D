@@ -2,7 +2,7 @@ package main;
 
 public class Config{
 static String[] mapy = new String[10];
-public static String ActiveMap = "Menu";
+public static String ActiveMap = "MapaPoziom1";
 
 
 
