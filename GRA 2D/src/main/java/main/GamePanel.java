@@ -24,6 +24,7 @@ public class GamePanel extends JPanel implements Runnable {
     MapaPoziom1 mapaPoziom1 = new MapaPoziom1();
     endlessMode endlessMode = new endlessMode();
     Thread gameThread;
+    public int licznik = 0;
 
     //funkcja odpowiadająca za utworzenie pustego podstawego panelu, w tym momęcie podpinane sa kontrolery klawiszy
     public GamePanel() throws IOException {

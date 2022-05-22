@@ -5,6 +5,7 @@ import main.Sound.SoundEffects;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 
 public class Player extends Entity {
@@ -13,6 +14,7 @@ public class Player extends Entity {
     BufferedImage image;
     MapaTestowa mt = new MapaTestowa();
     SoundEffects eSound;
+    Skins skinse = new Skins();
 
 
     public Player(GamePanel gp, KeyHandler keyHandler) {
@@ -21,13 +23,14 @@ public class Player extends Entity {
         setDefaultValues();
         getPalyerImage();
         eSound = new SoundEffects();
+       // skins = new Skins();
 
 
     }
     //import grafik gracza
     public void getPalyerImage() {
         try {
-            stand = ImageIO.read(ClassLoader.getSystemResourceAsStream("skullhead1.png"));
+            stand = ImageIO.read(ClassLoader.getSystemResourceAsStream("skins/skullhead1.png"));
             particle1 = ImageIO.read(ClassLoader.getSystemResourceAsStream("particle1.png"));
             particle2 = ImageIO.read(ClassLoader.getSystemResourceAsStream("particle2.png"));
             lewo = ImageIO.read(ClassLoader.getSystemResourceAsStream("pixil-frame-0-lewo.png"));
