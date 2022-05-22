@@ -65,7 +65,7 @@ public class Player extends Entity {
             worldMoveX = worldMoveX + playerSpeed;
             image = stand;
         }
-        if (keyHandler.rightPressed == true) {
+        if (true) {
             if(!solid) {
                 worldMoveX = worldMoveX - playerSpeed;
                 image = stand;

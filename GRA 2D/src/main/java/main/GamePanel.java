@@ -21,6 +21,7 @@ public class GamePanel extends JPanel implements Runnable {
     KeyHandler keyHandler = new KeyHandler();
     Player player = new Player(this, keyHandler);
     MapaTestowa mt = new MapaTestowa();
+    MapaPoziom1 mapaPoziom1 = new MapaPoziom1();
     endlessMode endlessMode = new endlessMode();
     Thread gameThread;
 
@@ -103,6 +104,16 @@ public class GamePanel extends JPanel implements Runnable {
                 }catch (IOException e){
                     e.printStackTrace();
                 }
+                break;
+            case "Poziom1":
+                try {
+                    mapaPoziom1.drawBackground(g2);
+                    mapaPoziom1.draw(g2);
+                    mapaPoziom1.drawColider();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
 
         }
         player.drawParticle(g2);
