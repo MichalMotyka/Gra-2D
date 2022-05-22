@@ -60,11 +60,11 @@ public class Player extends Entity {
         if (keyHandler.downPressed == true) {
             //  y +=playerSpeed;
         }
-        if (keyHandler.leftPressed == true) {
-            // x -=playerSpeed;
-            worldMoveX = worldMoveX + playerSpeed;
-            image = stand;
-        }
+//        if (keyHandler.leftPressed == true) {
+//            // x -=playerSpeed;
+//            worldMoveX = worldMoveX + playerSpeed;
+//            image = stand;
+//        }
         if (true) {
             if(!solid) {
                 worldMoveX = worldMoveX - playerSpeed;
