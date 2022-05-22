@@ -1,13 +1,17 @@
 package main;
 
 import java.awt.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 
 public class Particles {
     static ArrayList<Particle> arrayList = new ArrayList<>();
     static ArrayList<Particle> runList = new ArrayList<>();
     static ArrayList<Particle> runArrayList = new ArrayList<>();
+    static ArrayList<ArrayList> rainParticles = new ArrayList<ArrayList>();
+    static ArrayList<Particle> layer = new ArrayList<Particle>();
 
     public static void DrawParticle(Graphics2D g2){
         g2.setColor(new Color(120,120,120,190));
@@ -57,4 +61,34 @@ public class Particles {
         }
     }
     public static void removeRunParticle(int index){runArrayList.remove(index);}
+    public static void createLayer(){
+        for (int x= 0;x <=1500; x++){
+            int v = (int) Math.round(Math.random() * 250);
+            Particle rainParticle = new Particle(x+v,-10,1,2);
+            rainParticle.setSpeed((int)Math.round(Math.random()*(10-5))+5);
+            layer.add(rainParticle);
+            x=x+v;
+        }
+        rainParticles.add((ArrayList) layer.clone());
+        layer.clear();
+    }
+    public static void drawRainParticle(Graphics2D g2){
+        createLayer();
+        g2.setColor(Color.CYAN);
+        for (int y = 0;y<=rainParticles.size()-1;y++)
+          for (int x = 0; x <= rainParticles.get(y).size()-1;x++){
+            Particle particle = (Particle)rainParticles.get(y).get(x);
+            if (particle.getY()>=1200){
+                rainParticles.get(y).remove(x);
+                if(rainParticles.get(y).size() == 0){
+                    rainParticles.remove(y);
+                }
+            }else{
+                rainParticles.get(y).set(x,new Particle(particle.getX()-2, particle.getY()+particle.getSpeed(),1,(int) Math.round(Math.random() * 4)));
+                ((Particle) rainParticles.get(y).get(x)).setSpeed(particle.getSpeed());
+                g2.fillRect(particle.getX(),particle.getY(),1,3);
+            }
+
+        }
+    }
 }

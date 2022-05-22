@@ -57,6 +57,7 @@ public class MapaTestowa implements MapInterface {
 
     //funkcja odpowiedzialana za rysowanie obiektow na mapie
     public  void draw(Graphics2D g2) throws IOException {
+        Particles.drawRainParticle(g2);
         GraphicDraw.DrawGroundObjects(zemia,g2,820);
         GraphicDraw.DrawGoundObjectsWithScale(trawa,g2,780,50,50);
         GraphicDraw.DrawObjects(drzewoLocaltion,drzewo,g2);
@@ -69,6 +70,6 @@ public class MapaTestowa implements MapInterface {
     }
     //funckja odpowiedzialna za rysowanie backgroundu
     public  void drawBackground(Graphics2D g2) {
-        g2.drawImage(backgroundImage, 0,0, null);
+        //g2.drawImage(backgroundImage, 0,0, null);
     }
 }
