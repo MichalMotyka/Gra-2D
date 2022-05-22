@@ -57,7 +57,7 @@ public class Menu extends JPanel {
         this.setFocusable(true);
         eSound = new SoundMaps();
         eSound.setFile(0);
-        eSound.play();
+        eSound.loop();
 
     }
 
@@ -85,18 +85,15 @@ public class Menu extends JPanel {
                     throw new RuntimeException(ex);
                 }
                 if(response.contains("name")){
-                    GamePanel gamePanel = null;
-                    try {
-                        gamePanel = new GamePanel();
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    }
-//                    Config.ActiveMap = "MapaTestowa";
-                    frame.add(gamePanel);
+                    UserMenu userMenu = null;
+                    userMenu = new UserMenu();
+                    userMenu.addListenerToPlayBtn(frame, userMenu);
+                    userMenu.addListenerToSkinsBtn(frame, userMenu);
+                    frame.add(userMenu);
                     frame.repaint();
                     frame.revalidate();
 //                frame.setContentPane(panel);
-                    gamePanel.startGameThread();
+                   // gamePanel.startGameThread();
                     frame.remove(panelToRemove);
                 } else {
                     JOptionPane.showMessageDialog(panelToRemove, "Podana nazwa uzytkwonika jest niepoprawna");
