@@ -1,7 +1,5 @@
 package main;
 
-import sun.security.util.ArrayUtil;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;

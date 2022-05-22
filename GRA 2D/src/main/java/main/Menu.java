@@ -1,5 +1,8 @@
 package main;
 
+import main.Sound.SoundEffects;
+import main.Sound.SoundMaps;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -22,6 +25,8 @@ public class Menu extends JPanel {
     final int maxScreenCol = 25;
     final int screenWidth = titleSize * maxScreenCol;
     final int screenHeight = titleSize * maxScreenRow;
+
+    private SoundMaps eSound;
 
     public Menu() {
         GridBagConstraints gbc = new GridBagConstraints();
@@ -50,6 +55,10 @@ public class Menu extends JPanel {
         this.add(registerBtn, gbc);
 //        this.setLayout(new GridLayout(2, 1));
         this.setFocusable(true);
+        eSound = new SoundMaps();
+        eSound.setFile(0);
+        eSound.play();
+
     }
 
     @Override
