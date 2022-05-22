@@ -100,6 +100,7 @@ public class SkinsMenu extends JPanel {
                 userMenu = new UserMenu();
                 userMenu.addListenerToPlayBtn(frame, userMenu);
                 userMenu.addListenerToSkinsBtn(frame, userMenu);
+                Player.ChoosedSkin = licznik;
                 frame.add(userMenu);
                 frame.repaint();
                 frame.revalidate();

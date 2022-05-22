@@ -14,7 +14,8 @@ public class Player extends Entity {
     BufferedImage image;
     MapaTestowa mt = new MapaTestowa();
     SoundEffects eSound;
-    Skins skinse = new Skins();
+    public static Skins skise;
+    public static Integer ChoosedSkin;
 
 
     public Player(GamePanel gp, KeyHandler keyHandler) {
@@ -23,14 +24,13 @@ public class Player extends Entity {
         setDefaultValues();
         getPalyerImage();
         eSound = new SoundEffects();
-       // skins = new Skins();
 
 
     }
     //import grafik gracza
     public void getPalyerImage() {
         try {
-            stand = ImageIO.read(ClassLoader.getSystemResourceAsStream("skins/skullhead1.png"));
+            stand = GetChoosedSkin();
             particle1 = ImageIO.read(ClassLoader.getSystemResourceAsStream("particle1.png"));
             particle2 = ImageIO.read(ClassLoader.getSystemResourceAsStream("particle2.png"));
             lewo = ImageIO.read(ClassLoader.getSystemResourceAsStream("pixil-frame-0-lewo.png"));
@@ -49,6 +49,15 @@ public class Player extends Entity {
         grounded = true;
         ground = 730;
         jumpStart = 0;
+    }
+    public static BufferedImage GetChoosedSkin() throws IOException {
+        skise = new Skins();
+        if(ChoosedSkin == null) {
+            return ImageIO.read(ClassLoader.getSystemResourceAsStream("skins/skullhead1.png"));
+        }
+        else {
+            return ImageIO.read(new File("src/main/resources/skins", skise.skins.get(ChoosedSkin)));
+        }
     }
 
     //funkcja odpowiedzialna za poruszanie się oraz inne odziaływania fizyczne na gracza np upadek
