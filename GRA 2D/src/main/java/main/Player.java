@@ -13,6 +13,9 @@ public class Player extends Entity {
     KeyHandler keyHandler;
     BufferedImage image;
     MapaTestowa mt = new MapaTestowa();
+    JumpCooldown jumpCooldown = new JumpCooldown();
+    long currentTimeAfterGrounded;
+    boolean canJumpAfterGrounded = true;
     SoundEffects eSound;
     public static Skins skise;
     public static Integer ChoosedSkin;
@@ -62,7 +65,11 @@ public class Player extends Entity {
 
     //funkcja odpowiedzialna za poruszanie się oraz inne odziaływania fizyczne na gracza np upadek
     public void update() {
-        if (keyHandler.upPressed == true && grounded) {
+        if (keyHandler.upPressed == true && grounded && jumpCooldown.checkIfCanJump() && canJumpAfterGrounded) {
+            jumpCooldown.setCanJump();
+            // @TODO: dać w inne miejsce ewentualnie,teraz po wykonaniu skoku odlicza czas, a powinno po opadnięciu i wtey odliczac np 200 ms.
+            currentTimeAfterGrounded = System.currentTimeMillis() + 1650;
+            canJumpAfterGrounded = false;
             jumpStart = y;
             jump = true;
             grounded = false;
@@ -78,6 +85,7 @@ public class Player extends Entity {
 //            image = stand;
 //        }
         if (true) {
+            jumpCooldown.checkIfCanJump();
             if(!solid) {
                 worldMoveX = worldMoveX - playerSpeed;
                 image = stand;
@@ -108,6 +116,9 @@ public class Player extends Entity {
 
         if (y >= ground) {
             grounded = true;
+            if(currentTimeAfterGrounded <= System.currentTimeMillis() && y >= ground) {
+                canJumpAfterGrounded = true;
+            }
             fall = true;
         }
 
