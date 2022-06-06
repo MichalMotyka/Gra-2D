@@ -2,9 +2,17 @@ package main;
 
 
 public class ConsoleCommand {
-    static int x = 100;
-//    void getX(){
-//        x = x+PlayerStats.speed;
-//        System.out.println(x);
-//    }
+    private final String command;
+
+    public ConsoleCommand(String command) {
+        this.command = command;
+        if (command.equals("restart")){
+            restartMap();
+        }
+    }
+
+
+    void restartMap(){
+        Player.worldMoveX = 0;
+    }
 }
