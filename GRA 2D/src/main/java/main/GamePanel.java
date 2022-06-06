@@ -3,6 +3,7 @@ package main;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class GamePanel extends JPanel implements Runnable {
     //Zmienne odpowiedajace za rozdzielczość oraz maksymalna liczbe fps
@@ -39,6 +40,11 @@ public class GamePanel extends JPanel implements Runnable {
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
+    }
+    void commands(){
+        Scanner scanner = new Scanner(System.in);
+        String command = scanner.nextLine();
+        new ConsoleCommand(command);
     }
 
     //funkcja odpowiedzialna za utrzymanie klatkaż w odpowiedniej wartosci

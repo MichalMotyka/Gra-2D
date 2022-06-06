@@ -78,11 +78,12 @@ public class coliderController {
         int counter = 0;
         for (int x = 0; x <= objectmap.length - 1; x++) {
             for (int y = 0; y < ColiderMap.size(); y++) {
-                if (objectmap[x][0] != ColiderMap.get(y).get(0)) {
+                if (objectmap[x][0] == ColiderMap.get(y).get(0)) {
                     counter++;
                 }
             }
-            if (counter >= 1) {
+            if (counter == 1) {
+                System.out.println(counter);
                 int width = object.getWidth(null) + objectmap[x][0];
                 int height = object.getHeight(null) + objectmap[x][1];
                 int ground = Player.ground+70;
@@ -91,6 +92,17 @@ public class coliderController {
                 }
                 int index = ColiderMap.indexOf(new ArrayList<>(Arrays.asList(objectmap[x][0],objectmap[x][1])));
                 ColiderMap.set(index, new ArrayList(Arrays.asList(objectmap[x][0], objectmap[x][1], width,ground,height)));
+                counter = 0;
+            }
+            if (counter >= 2) {
+                int width = object.getWidth(null) + objectmap[x][0];
+                int height = object.getHeight(null) + objectmap[x][1];
+                int ground = Player.ground+70;
+                if (height > PlayerStats.groundStart+70){
+                    height= PlayerStats.groundStart + 70;
+                }
+                int index = ColiderMap.indexOf(new ArrayList<>(Arrays.asList(objectmap[x][0],objectmap[x][1])));
+                ColiderMap.set(index,new ArrayList(Arrays.asList(objectmap[x][0], objectmap[x][1], width,ground,height)));
                 counter = 0;
             }
         }
