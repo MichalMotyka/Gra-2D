@@ -114,12 +114,9 @@ public class GamePanel extends JPanel implements Runnable {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-
-
         }
         player.drawParticle(g2);
         player.draw(g2);
-
         g2.dispose();
         g.dispose();
         Points points = new Points();

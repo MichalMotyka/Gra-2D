@@ -64,7 +64,7 @@ public class Particles {
     public static void createLayer(){
         for (int x= 0;x <=1500; x++){
             int v = (int) Math.round(Math.random() * 250);
-            Particle rainParticle = new Particle(x+v,-10,1,2);
+            Particle rainParticle = new Particle(x+v,-50,1,2);
             rainParticle.setSpeed((int)Math.round(Math.random()*(10-5))+5);
             layer.add(rainParticle);
             x=x+v;
