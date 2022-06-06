@@ -83,7 +83,6 @@ public class coliderController {
                 }
             }
             if (counter == 1) {
-                System.out.println(counter);
                 int width = object.getWidth(null) + objectmap[x][0];
                 int height = object.getHeight(null) + objectmap[x][1];
                 int ground = Player.ground+70;

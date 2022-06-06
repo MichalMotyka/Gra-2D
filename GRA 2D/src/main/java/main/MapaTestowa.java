@@ -39,6 +39,7 @@ public class MapaTestowa implements MapInterface {
 
     //dodanie koliderów do poczekalni
     public void addColiders(){
+        TrigerController.addTriger();
         coliderController.addObjectColiderMap(scianaLocation);
         coliderController.addObjectColiderMap(drzewoLocaltion);
         coliderController.sortColiderMap();
@@ -63,7 +64,7 @@ public class MapaTestowa implements MapInterface {
         GraphicDraw.DrawObjects(drzewoLocaltion,drzewo,g2);
         GraphicDraw.DrawObjects(scianaLocation,sciana,g2);
         GraphicDraw.DrawAnimatedObject(kwiatLocation,kwiat,1200,750,g2);
-
+        TrigerController.validColision(g2);
     }
     public void drawParticle(Graphics2D g2){
         Particles.DrawParticle(g2);
