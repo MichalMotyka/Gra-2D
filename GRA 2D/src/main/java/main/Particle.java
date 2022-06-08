@@ -5,7 +5,7 @@ public class Particle {
     private final int y;
     private final int width;
     private final int height;
-
+    private int speed;
     public int getX() {
         return x;
     }
@@ -21,6 +21,9 @@ public class Particle {
     public int getHeight() {
         return height;
     }
+    public int getSpeed() {return speed;}
+    public void setSpeed(int speed) {this.speed = speed;}
+
 
 
 

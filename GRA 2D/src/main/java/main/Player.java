@@ -5,6 +5,7 @@ import main.Sound.SoundEffects;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 
 public class Player extends Entity {
@@ -13,6 +14,8 @@ public class Player extends Entity {
     BufferedImage image;
     MapaTestowa mt = new MapaTestowa();
     SoundEffects eSound;
+    public static Skins skise;
+    public static Integer ChoosedSkin;
 
 
     public Player(GamePanel gp, KeyHandler keyHandler) {
@@ -27,7 +30,7 @@ public class Player extends Entity {
     //import grafik gracza
     public void getPalyerImage() {
         try {
-            stand = ImageIO.read(ClassLoader.getSystemResourceAsStream("proproprotyp.png"));
+            stand = GetChoosedSkin();
             particle1 = ImageIO.read(ClassLoader.getSystemResourceAsStream("particle1.png"));
             particle2 = ImageIO.read(ClassLoader.getSystemResourceAsStream("particle2.png"));
             lewo = ImageIO.read(ClassLoader.getSystemResourceAsStream("pixil-frame-0-lewo.png"));
@@ -47,6 +50,15 @@ public class Player extends Entity {
         ground = 730;
         jumpStart = 0;
     }
+    public static BufferedImage GetChoosedSkin() throws IOException {
+        skise = new Skins();
+        if(ChoosedSkin == null) {
+            return ImageIO.read(ClassLoader.getSystemResourceAsStream("skins/skullhead1.png"));
+        }
+        else {
+            return ImageIO.read(new File("src/main/resources/skins", skise.skins.get(ChoosedSkin)));
+        }
+    }
 
     //funkcja odpowiedzialna za poruszanie się oraz inne odziaływania fizyczne na gracza np upadek
     public void update() {
@@ -60,20 +72,20 @@ public class Player extends Entity {
         if (keyHandler.downPressed == true) {
             //  y +=playerSpeed;
         }
-        if (keyHandler.leftPressed == true) {
-            // x -=playerSpeed;
-            worldMoveX = worldMoveX + playerSpeed;
-            image = stand;
-        }
-        if (keyHandler.rightPressed == true) {
+//        if (keyHandler.leftPressed == true) {
+//            // x -=playerSpeed;
+//            worldMoveX = worldMoveX + playerSpeed;
+//            image = stand;
+//        }
+        if (true) {
             if(!solid) {
                 worldMoveX = worldMoveX - playerSpeed;
                 image = stand;
             }
         }
-        if(keyHandler.menuPressed == true){
-            popupmenu = true;
-        }
+        // if(keyHandler.menuPressed == true){
+        //     popupmenu = true;
+        // }
 
         if (jump == false && y < ground) {
             y += gravity;
@@ -103,6 +115,10 @@ public class Player extends Entity {
     //funckaj zwraca o ile pxl przemiescil sie swiat
     public int getWorldMove() {
         return worldMoveX;
+    }
+    public void drawParticle(Graphics2D g2){
+        Particles.DrawParticle(g2);
+        Particles.drawRunParticle(g2);
     }
     //funckja odpowiedzialna zarysowanie gracza w odpowiedniej pozie/animacji
     public void draw(Graphics2D g2) {

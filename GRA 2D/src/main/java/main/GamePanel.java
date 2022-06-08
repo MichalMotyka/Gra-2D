@@ -1,16 +1,11 @@
 package main;
 
-import main.Sound.SoundEffects;
-import main.Sound.SoundMaps;
-
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
 public class GamePanel extends JPanel implements Runnable {
     //Zmienne odpowiedajace za rozdzielczość oraz maksymalna liczbe fps
-    SoundEffects eSound;
-    SoundMaps mSound;
     final int originalTitleSize = 16;
     final int scale = 3;
     public final int titleSize = originalTitleSize * scale;
@@ -19,12 +14,17 @@ public class GamePanel extends JPanel implements Runnable {
     final int screenWidth = titleSize * maxScreenCol;
     final int screenHeight = titleSize * maxScreenRow;
     int FPS = 60;
+    long t = System.currentTimeMillis();
+    long end = t+1000;
     Color brown = new Color(110, 38, 14);
-
+    int fpscounter = 0 ;
     KeyHandler keyHandler = new KeyHandler();
     Player player = new Player(this, keyHandler);
     MapaTestowa mt = new MapaTestowa();
+    MapaPoziom1 mapaPoziom1 = new MapaPoziom1();
+    endlessMode endlessMode = new endlessMode();
     Thread gameThread;
+    public int licznik = 0;
 
     //funkcja odpowiadająca za utworzenie pustego podstawego panelu, w tym momęcie podpinane sa kontrolery klawiszy
     public GamePanel() throws IOException {
@@ -39,10 +39,6 @@ public class GamePanel extends JPanel implements Runnable {
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
-        eSound = new SoundEffects();
-        mSound = new SoundMaps();
-        mSound.setFile(0);
-        mSound.play();
     }
 
     //funkcja odpowiedzialna za utrzymanie klatkaż w odpowiedniej wartosci
@@ -60,15 +56,20 @@ public class GamePanel extends JPanel implements Runnable {
             timer += (currentTime - lastTime);
             lastTime = currentTime;
             if (delta >= 1) {
-                update();
+                try {
+                    update();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
                 repaint();
                 delta--;
                 drawCount++;
             }
         }
+
     }
     //funckaja wykonujaca się raz na 1/60 sekundy
-    public void update() {
+    public void update() throws IOException {
         player.update();
     }
     //funckja odpowiedzialna za rysowanie komponentów na ekranie
@@ -83,7 +84,7 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
         g.setColor(Color.ORANGE);
         Graphics2D g2 = (Graphics2D) g;
-      switch (Config.ActiveMap){
+        switch (Config.ActiveMap){
             case "MapaTestowa":
                 mt.drawBackground(g2);
                   g.fillRect(100, 100, 100, 100);
@@ -95,11 +96,31 @@ public class GamePanel extends JPanel implements Runnable {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                break;
+            case "Endles":
+                try {
+                    endlessMode.drawBackground(g2);
+                    endlessMode.draw(g2);
+                    endlessMode.drawColider();
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+                break;
+            case "Poziom1":
+                try {
+                    mapaPoziom1.drawBackground(g2);
+                    mapaPoziom1.draw(g2);
+                    mapaPoziom1.drawColider();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
         }
-        mt.drawParticle(g2);
+        player.drawParticle(g2);
         player.draw(g2);
         g2.dispose();
         g.dispose();
+        Points points = new Points();
+        points.updatepoints();
     }
 
 }
