@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class TrigerController {
     static ArrayList<Triger> TrigerList = new ArrayList<Triger>();
-
+    static KeyHandler keyHandler = new KeyHandler();
     public static void addTriger(){
         Triger triger = new Triger(820,730,10,10, Triger.Type.DEATH);
         TrigerList.add(triger);
@@ -16,8 +16,10 @@ public class TrigerController {
     }
 
     static void UpdateTriger(){
-        for (Triger triger:TrigerList) {
-            triger.setX(triger.getX()-Player.playerSpeed);
+        if(keyHandler.stopPressed) {
+            for (Triger triger : TrigerList) {
+                triger.setX(triger.getX() - Player.playerSpeed);
+            }
         }
     }
     static void DrawTriger(Graphics2D g2){

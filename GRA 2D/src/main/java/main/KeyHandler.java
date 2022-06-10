@@ -5,15 +5,18 @@ import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
 
-    public boolean upPressed,downPressed,leftPressed,rightPressed;
+    public boolean upPressed,downPressed,leftPressed,rightPressed,stopPressed=false;
     @Override
     public void keyTyped(KeyEvent e) {
+        int code = e.getKeyCode();
 
     }
-
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
+        if (code == KeyEvent.VK_ESCAPE) {
+            stopPressed = !stopPressed;
+        }
         if(code == KeyEvent.VK_W){
              upPressed = true;
         }

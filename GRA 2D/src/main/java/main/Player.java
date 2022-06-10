@@ -84,7 +84,7 @@ public class Player extends Entity {
 //            worldMoveX = worldMoveX + playerSpeed;
 //            image = stand;
 //        }
-        if (true) {
+        if (keyHandler.stopPressed == false) {
             jumpCooldown.checkIfCanJump();
             if(!solid) {
                 worldMoveX = worldMoveX - playerSpeed;
