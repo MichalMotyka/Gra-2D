@@ -13,7 +13,6 @@ public class JumpCooldown extends Entity {
 
    public boolean checkIfCanJump() {
        if(!canJump) {
-           System.out.println("Siema");
            if(currentTime <= System.currentTimeMillis()) {
                canJump = !canJump;
                return true;

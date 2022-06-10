@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class TrigerController {
     static ArrayList<Triger> TrigerList = new ArrayList<Triger>();
     static KeyHandler keyHandler = new KeyHandler();
+    static boolean death = false;
     public static void addTriger(){
         Triger triger = new Triger(820,730,10,10, Triger.Type.DEATH);
         TrigerList.add(triger);
@@ -36,9 +37,10 @@ public class TrigerController {
             if ( triger.getTrigerType() == Triger.Type.DEATH&& (triger.getX() >= Player.x + 80 - Player.playerSpeed && triger.getX()  <= Player.x + 80 + Player.playerSpeed) &&
                     (triger.getY() <= Player.y+50 && triger.getY() >= Player.y)) {
                 System.out.println("Umarłeś śmieciu najgorszy!!!!!!!!!!!");
-                while (true){
-                 Thread.sleep(1000);
-                }
+                death = true;
+//                while (true){
+//                 Thread.sleep(1000);
+//                }
             }
             if ( triger.getTrigerType() == Triger.Type.COIN&& (triger.getX() >= Player.x + 80 - Player.playerSpeed && triger.getX()  <= Player.x + 80 + Player.playerSpeed) &&
                     (triger.getY() <= Player.y+50 && triger.getY() >= Player.y)) {

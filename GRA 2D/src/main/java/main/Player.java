@@ -84,7 +84,7 @@ public class Player extends Entity {
 //            worldMoveX = worldMoveX + playerSpeed;
 //            image = stand;
 //        }
-        if (keyHandler.stopPressed == false) {
+        if (keyHandler.stopPressed == false && !TrigerController.death) {
             jumpCooldown.checkIfCanJump();
             if(!solid) {
                 worldMoveX = worldMoveX - playerSpeed;
@@ -101,7 +101,6 @@ public class Player extends Entity {
                 Particles.addNewParticle(x+50,ground+90);
                 y =ground;
             }
-
         }
         if (jump == true) {
             if (!ceilingsolid){

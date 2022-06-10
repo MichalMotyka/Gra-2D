@@ -1,7 +1,10 @@
 package main;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -124,10 +127,31 @@ public class GamePanel extends JPanel implements Runnable {
         player.drawParticle(g2);
         player.draw(g2);
         if(keyHandler.stopPressed){
-            this.add(new JLabel("PAUZA"));
+//            this.add(new JLabel("PAUZA"));
             g2.setColor(new Color(255, 255, 255, 80));
             g2.fillRect(0,0,screenWidth,screenHeight);
+            Image img = null;
+            try {
+                img = ImageIO.read(new File("src/main/resources/pauza.png"));
+            } catch (IOException e) {
+            }
+            g2.drawImage(img, (screenWidth - img.getWidth(null)) / 2, 150, null);
         }
+
+        if(TrigerController.death) {
+            g2.setColor(new Color(255, 255, 255, 80));
+            g2.fillRect(0,0,screenWidth,screenHeight);
+            Image img = null;
+            Image img2 = null;
+            try {
+                img = ImageIO.read(new File("src/main/resources/lose.png"));
+                img2 = ImageIO.read(new File("src/main/resources/menubtn.png"));
+            } catch (IOException e) {
+            }
+            g2.drawImage(img, (screenWidth - img.getWidth(null)) / 2, 150, null);
+            g2.drawImage(img2, (screenWidth - 200) / 2, 450, 200, 100,null);
+        }
+
         g2.dispose();
         g.dispose();
         Points points = new Points();
