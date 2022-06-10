@@ -16,7 +16,7 @@ public class TrigerController {
     }
 
     static void UpdateTriger(){
-        if(keyHandler.stopPressed) {
+        if(!keyHandler.stopPressed) {
             for (Triger triger : TrigerList) {
                 triger.setX(triger.getX() - Player.playerSpeed);
             }
