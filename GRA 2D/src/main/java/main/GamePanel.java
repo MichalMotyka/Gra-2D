@@ -3,7 +3,7 @@ package main;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
@@ -27,6 +27,8 @@ public class GamePanel extends JPanel implements Runnable {
     MapaTestowa mt = new MapaTestowa();
     MapaPoziom1 mapaPoziom1 = new MapaPoziom1();
     endlessMode endlessMode = new endlessMode();
+    static boolean clicked = false;
+    boolean canChangePanel = false;
     Thread gameThread;
     public int licznik = 0;
 
@@ -43,6 +45,10 @@ public class GamePanel extends JPanel implements Runnable {
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
+    }
+
+    public void stopGameThread() {
+        gameThread.stop();
     }
     void commands(){
         Scanner scanner = new Scanner(System.in);
@@ -150,12 +156,29 @@ public class GamePanel extends JPanel implements Runnable {
             }
             g2.drawImage(img, (screenWidth - img.getWidth(null)) / 2, 150, null);
             g2.drawImage(img2, (screenWidth - 200) / 2, 450, 200, 100,null);
+
+            if(!clicked) {
+                clicked = true;
+                MouseHandler.pressMouse(this);
+                canChangePanel = true;
+            }
         }
+
 
         g2.dispose();
         g.dispose();
         Points points = new Points();
         points.updatepoints();
+    }
+    void addListenerToMenuButton(JFrame frame, UserMenu userMenu, GamePanel gamePanel) {
+        System.out.println(canChangePanel);
+        if(canChangePanel) {
+            frame.remove(gamePanel);
+            frame.add(userMenu);
+            frame.repaint();
+            frame.revalidate();
+            System.gc();
+        }
     }
 
 }

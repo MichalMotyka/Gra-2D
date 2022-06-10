@@ -8,6 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 
@@ -23,6 +25,15 @@ public class UserMenu extends JPanel {
     final int maxScreenCol = 25;
     final int screenWidth = titleSize * maxScreenCol;
     final int screenHeight = titleSize * maxScreenRow;
+    GamePanel gamePanel = null;
+
+    {
+        try {
+            gamePanel = new GamePanel();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public UserMenu() {
         GridBagConstraints gbc = new GridBagConstraints();
@@ -59,17 +70,25 @@ public class UserMenu extends JPanel {
         this.playBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GamePanel gamePanel = null;
-                try {
-                    gamePanel = new GamePanel();
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
+//                GamePanel gamePanel = null;
+//                try {
+//                    gamePanel = new GamePanel();
+//                } catch (IOException ex) {
+//                    throw new RuntimeException(ex);
+//                }
+//                if(gamePanel != null) {
+//                    try {
+//                        gamePanel = new GamePanel();
+//                    } catch (IOException ex) {
+//                        throw new RuntimeException(ex);
+//                    }
+//                }
+                gamePanel.addMouseListener(MouseHandler.exitGamePanel(gamePanel, frame, panelToRemove));
                 frame.add(gamePanel);
+                frame.remove(panelToRemove);
                 frame.repaint();
                 frame.revalidate();
                 gamePanel.startGameThread();
-                frame.remove(panelToRemove);
             }
         });
     }
