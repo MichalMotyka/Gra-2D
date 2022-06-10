@@ -124,7 +124,8 @@ public class GamePanel extends JPanel implements Runnable {
         player.drawParticle(g2);
         player.draw(g2);
         if(keyHandler.stopPressed){
-            g2.setColor(Color.RED);
+            this.add(new JLabel("PAUZA"));
+            g2.setColor(new Color(255, 255, 255, 80));
             g2.fillRect(0,0,screenWidth,screenHeight);
         }
         g2.dispose();
