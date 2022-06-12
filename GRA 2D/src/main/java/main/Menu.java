@@ -89,6 +89,7 @@ public class Menu extends JPanel {
                     userMenu = new UserMenu();
                     userMenu.addListenerToPlayBtn(frame, userMenu);
                     userMenu.addListenerToSkinsBtn(frame, userMenu);
+                    userMenu.addListenerToChestsBtn(frame, userMenu);
                     frame.add(userMenu);
                     frame.repaint();
                     frame.revalidate();
