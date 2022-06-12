@@ -59,7 +59,7 @@ public class Player extends Entity {
             return ImageIO.read(ClassLoader.getSystemResourceAsStream("skins/skullhead1.png"));
         }
         else {
-            return ImageIO.read(new File("src/main/resources/skins", skise.skins.get(ChoosedSkin)));
+            return ImageIO.read(new File("src/main/resources/skins", skise.own_skins.get(ChoosedSkin)));
         }
     }
 
