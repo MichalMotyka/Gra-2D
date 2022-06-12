@@ -17,6 +17,7 @@ public class Menu extends JPanel {
     JLabel logo = new JLabel("Happy Jump Square");
     JButton loginBtn = new JButton("Zaloguj się");
     JButton registerBtn = new JButton("Zarejestruj się");
+    JButton settingsBtn = new JButton("Ustawienia");
     final int originalTitleSize = 16;
     final int scale = 3;
     public final int titleSize = originalTitleSize * scale;
@@ -26,7 +27,6 @@ public class Menu extends JPanel {
     final int screenWidth = titleSize * maxScreenCol;
     final int screenHeight = titleSize * maxScreenRow;
 
-    private SoundMaps eSound;
 
     public Menu() {
         GridBagConstraints gbc = new GridBagConstraints();
@@ -36,11 +36,13 @@ public class Menu extends JPanel {
 
         loginBtn.setBounds(475, 150, 250, 60);
         registerBtn.setBounds(475, 400, 250, 60);
+        settingsBtn.setBounds(475, 250, 250, 60);
         logo.setBounds(475, 50, 250, 50);
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.GRAY);
         loginBtn.setBackground(new Color(255, 204, 179));
         registerBtn.setBackground(new Color(255, 204, 179));
+        settingsBtn.setBackground(new Color(255, 204, 179));
 //        loginBtn.setPreferredSize(new Dimension(250,60));
 //        registerBtn.setPreferredSize(new Dimension(250,60));
 
@@ -53,11 +55,10 @@ public class Menu extends JPanel {
 //        gbc.gridx = 0;
 //        gbc.gridy=2;
         this.add(registerBtn, gbc);
+        this.add(settingsBtn, gbc);
 //        this.setLayout(new GridLayout(2, 1));
         this.setFocusable(true);
-        eSound = new SoundMaps();
-        eSound.setFile(0);
-        eSound.loop();
+
 
     }
 
@@ -116,6 +117,26 @@ public class Menu extends JPanel {
                     throw new RuntimeException(ex);
                 }
                 System.out.println(response);
+            }
+        });
+    }
+    void addListenerToSettingsBtn(JFrame frame, Menu panelToRemove) {
+        this.settingsBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SettingsMenu settingsMenu = null;
+                try {
+                    settingsMenu = new SettingsMenu();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                settingsMenu.addListenerToConfirmBtn(frame, settingsMenu);
+                frame.add(settingsMenu);
+                frame.repaint();
+                frame.revalidate();
+//              frame.setContentPane(panel);
+                // gamePanel.startGameThread();
+                frame.remove(panelToRemove);
             }
         });
     }
