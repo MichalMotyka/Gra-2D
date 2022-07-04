@@ -36,7 +36,6 @@ public class TrigerController {
         for (Triger triger:TrigerList) {
             if ( triger.getTrigerType() == Triger.Type.DEATH&& (triger.getX() >= Player.x + 80 - Player.playerSpeed && triger.getX()  <= Player.x + 80 + Player.playerSpeed) &&
                     (triger.getY() <= Player.y+50 && triger.getY() >= Player.y)) {
-                System.out.println("Umarłeś śmieciu najgorszy!!!!!!!!!!!");
                 death = true;
 //                while (true){
 //                 Thread.sleep(1000);

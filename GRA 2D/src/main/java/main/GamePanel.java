@@ -56,6 +56,8 @@ public class GamePanel extends JPanel implements Runnable {
         new ConsoleCommand(command);
     }
 
+
+
     //funkcja odpowiedzialna za utrzymanie klatkaż w odpowiedniej wartosci
     public void run() {
         double drwaInterval = 1000000000 / FPS;
@@ -171,7 +173,6 @@ public class GamePanel extends JPanel implements Runnable {
         points.updatepoints();
     }
     void addListenerToMenuButton(JFrame frame, UserMenu userMenu, GamePanel gamePanel) {
-        System.out.println(canChangePanel);
         if(canChangePanel) {
             frame.remove(gamePanel);
             frame.add(userMenu);
@@ -179,6 +180,9 @@ public class GamePanel extends JPanel implements Runnable {
             frame.revalidate();
             System.gc();
         }
+    }
+    public void dispose() {
+        gameThread = null;
     }
 
 }

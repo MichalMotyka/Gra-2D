@@ -49,6 +49,7 @@ public class MouseHandler {
                 if(x >= (gamePanel.screenWidth - 200) / 2 && x <= (gamePanel.screenWidth + 200)/ 2 && y >= 450 && y <= 450 + 100) {
                     gamePanel.addListenerToMenuButton(frame, userMenu, gamePanel);
                     gamePanel.stopGameThread();
+
                 }
 //                GamePanel.clicked = true;
             }
