@@ -55,11 +55,11 @@ public class Player extends Entity {
     }
     public static BufferedImage GetChoosedSkin() throws IOException {
         skise = new Skins();
-        if(ChoosedSkin == null) {
+        if(ChoosedSkin == null || skise.own_skins.size() == 0) {
             return ImageIO.read(ClassLoader.getSystemResourceAsStream("skins/skullhead1.png"));
         }
         else {
-            return ImageIO.read(new File("src/main/resources/skins", skise.skins.get(ChoosedSkin)));
+            return ImageIO.read(new File("src/main/resources/skins", skise.own_skins.get(ChoosedSkin)));
         }
     }
 

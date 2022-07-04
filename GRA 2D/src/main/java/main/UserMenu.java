@@ -1,6 +1,7 @@
 package main;
 
 import lombok.SneakyThrows;
+import main.ChestsMenu;
 import main.Sound.SoundMaps;
 
 import javax.imageio.ImageIO;
@@ -8,8 +9,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 
@@ -17,6 +16,7 @@ public class UserMenu extends JPanel {
     JLabel logo = new JLabel("Happy Jump Square");
     JButton playBtn = new JButton("Graj");
     JButton skinsBtn = new JButton("Wybór skina");
+    JButton chestsBtn = new JButton("Otwieranie skrzynek");
     final int originalTitleSize = 16;
     final int scale = 3;
     public final int titleSize = originalTitleSize * scale;
@@ -25,15 +25,6 @@ public class UserMenu extends JPanel {
     final int maxScreenCol = 25;
     final int screenWidth = titleSize * maxScreenCol;
     final int screenHeight = titleSize * maxScreenRow;
-    GamePanel gamePanel = null;
-
-    {
-        try {
-            gamePanel = new GamePanel();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     public UserMenu() {
         GridBagConstraints gbc = new GridBagConstraints();
@@ -43,6 +34,7 @@ public class UserMenu extends JPanel {
 
         playBtn.setBounds(475, 150, 250, 60);
         skinsBtn.setBounds(475, 250, 250, 60);
+        chestsBtn.setBounds(475, 350, 250, 60);
         logo.setBounds(475, 50, 250, 50);
 
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -50,10 +42,12 @@ public class UserMenu extends JPanel {
 
         playBtn.setBackground(new Color(255, 204, 179));
         skinsBtn.setBackground(new Color(255, 204, 179));
+        chestsBtn.setBackground(new Color(255, 204, 179));
 
         this.add(logo);
         this.add(playBtn, gbc);
         this.add(skinsBtn, gbc);
+        this.add(chestsBtn, gbc);
 
         this.setFocusable(true);
     }
@@ -70,25 +64,17 @@ public class UserMenu extends JPanel {
         this.playBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                GamePanel gamePanel = null;
-//                try {
-//                    gamePanel = new GamePanel();
-//                } catch (IOException ex) {
-//                    throw new RuntimeException(ex);
-//                }
-//                if(gamePanel != null) {
-//                    try {
-//                        gamePanel = new GamePanel();
-//                    } catch (IOException ex) {
-//                        throw new RuntimeException(ex);
-//                    }
-//                }
-                gamePanel.addMouseListener(MouseHandler.exitGamePanel(gamePanel, frame, panelToRemove));
+                GamePanel gamePanel = null;
+                try {
+                    gamePanel = new GamePanel();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
                 frame.add(gamePanel);
-                frame.remove(panelToRemove);
                 frame.repaint();
                 frame.revalidate();
                 gamePanel.startGameThread();
+                frame.remove(panelToRemove);
             }
         });
     }
@@ -107,6 +93,26 @@ public class UserMenu extends JPanel {
                 skinsMenu.addListenerToLeftBtn(frame);
                 skinsMenu.addListenerToRightBtn(frame);
                 frame.add(skinsMenu);
+                frame.repaint();
+                frame.revalidate();
+                frame.remove(panelBefore);
+            }
+        });
+    }
+    void addListenerToChestsBtn(JFrame frame, UserMenu panelBefore){
+        this.chestsBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ChestsMenu chestsMenu = null;
+                try {
+                    chestsMenu = new ChestsMenu();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                chestsMenu.addListenerToConfirmBtn(frame, chestsMenu);
+                chestsMenu.addListenerToDrawBtn(frame);
+                //chestsMenu.addListenerToRightBtn(frame);
+                frame.add(chestsMenu);
                 frame.repaint();
                 frame.revalidate();
                 frame.remove(panelBefore);

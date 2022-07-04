@@ -13,9 +13,10 @@ import java.util.List;
 
 public abstract class AbstractSound implements Sound {
 
-    protected Clip clip;
-    protected List<String> soundList = new ArrayList<String>();
-    protected double volume;
+    public static Clip clip;
+    public static double volume;
+    public List<String> soundList = new ArrayList<String>();
+    public FloatControl gain;
 
     @Override
     public void setFile(int i) {
@@ -30,8 +31,8 @@ public abstract class AbstractSound implements Sound {
         }
     }
 
-    private static void setVol(double volume, Clip clip) {
-        FloatControl gain = (FloatControl)clip.getControl(FloatControl.Type.MASTER_GAIN);
+    public void setVol(double volume, Clip clip) {
+        gain = (FloatControl)clip.getControl(FloatControl.Type.MASTER_GAIN);
         float dB = (float) (Math.log(volume) / Math.log(10) * 20);
         gain.setValue(dB);
     }
@@ -39,6 +40,8 @@ public abstract class AbstractSound implements Sound {
     @Override
     public void play() {
         clip.start();
+        System.out.println(volume);
+
     }
 
     @Override

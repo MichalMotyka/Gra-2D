@@ -57,7 +57,7 @@ public class SkinsMenu extends JPanel {
 
         skins = new Skins();
 
-        skin = ImageIO.read(new File("src/main/resources/skins", skins.skins.get(0)));
+        skin = ImageIO.read(new File("src/main/resources/skins", skins.own_skins.get(0)));
 
 
         left.setIcon(leftIcon);
@@ -100,6 +100,7 @@ public class SkinsMenu extends JPanel {
                 userMenu = new UserMenu();
                 userMenu.addListenerToPlayBtn(frame, userMenu);
                 userMenu.addListenerToSkinsBtn(frame, userMenu);
+                userMenu.addListenerToChestsBtn(frame, userMenu);
                 Player.ChoosedSkin = licznik;
                 frame.add(userMenu);
                 frame.repaint();
@@ -113,9 +114,9 @@ public class SkinsMenu extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(licznik > 0) licznik--;
-                else licznik = skins.skins.size()-1;
+                else licznik = skins.own_skins.size()-1;
                 try {
-                    skin = ImageIO.read(new File("src/main/resources/skins", skins.skins.get(licznik)));
+                    skin = ImageIO.read(new File("src/main/resources/skins", skins.own_skins.get(licznik)));
                     frame.repaint();
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -127,10 +128,12 @@ public class SkinsMenu extends JPanel {
         this.right.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(licznik < skins.skins.size()-1) licznik++;
+                if(licznik < skins.own_skins.size()-1) licznik++;
                 else licznik = 0;
                 try {
-                    skin = ImageIO.read(new File("src/main/resources/skins", skins.skins.get(licznik)));
+                    skin = ImageIO.read(new File("src/main/resources/skins", skins.own_skins.get(licznik)));
+                    //System.out.println(skins.draw_skins);
+                    //System.out.println(skins.own_skins);
                     frame.repaint();
                 } catch (IOException ex) {
                     ex.printStackTrace();
