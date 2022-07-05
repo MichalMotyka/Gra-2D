@@ -33,12 +33,13 @@ public class MapaTestowa implements MapInterface {
         }
     }
     //definiowanie lokalizacji obiektów na mapie
-    static int[][] drzewoLocaltion = {{1500,500},{1700,500}};
+    static int[][] drzewoLocaltion = {{930,650}, {1600,650}};
     static int[][] scianaLocation = {{400,690}};
     static int[][] kwiatLocation = {{1200,800},{1205,800},{1210,800},{1215,800},{1220,800},{1225,800},{1230,800},{1235,800},{1240,800},{1245,800},{1250,800}};
 
     //dodanie koliderów do poczekalni
     public void addColiders(){
+        TrigerController.addTriger();
         coliderController.addObjectColiderMap(scianaLocation);
         coliderController.addObjectColiderMap(drzewoLocaltion);
         coliderController.sortColiderMap();
@@ -57,18 +58,19 @@ public class MapaTestowa implements MapInterface {
 
     //funkcja odpowiedzialana za rysowanie obiektow na mapie
     public  void draw(Graphics2D g2) throws IOException {
+        Particles.drawRainParticle(g2);
         GraphicDraw.DrawGroundObjects(zemia,g2,820);
         GraphicDraw.DrawGoundObjectsWithScale(trawa,g2,780,50,50);
         GraphicDraw.DrawObjects(drzewoLocaltion,drzewo,g2);
         GraphicDraw.DrawObjects(scianaLocation,sciana,g2);
         GraphicDraw.DrawAnimatedObject(kwiatLocation,kwiat,1200,750,g2);
-
+        TrigerController.validColision(g2);
     }
     public void drawParticle(Graphics2D g2){
         Particles.DrawParticle(g2);
     }
     //funckja odpowiedzialna za rysowanie backgroundu
     public  void drawBackground(Graphics2D g2) {
-        g2.drawImage(backgroundImage, 0,0, null);
+        //g2.drawImage(backgroundImage, 0,0, null);
     }
 }

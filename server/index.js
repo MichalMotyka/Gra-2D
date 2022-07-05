@@ -9,7 +9,12 @@ app.use((0, express_1.json)());
 app.use((0, express_1.urlencoded)({
     extended: true
 }));
+app.get('', function (req, res) {
+    res.json({ response: "Serwer działa" });
+});
 app.use('/users', users_1.usersRouter);
-app.listen(3000, 'localhost', function () {
+var PORT = process.env.PORT || 3000;
+var HOST = '0.0.0.0';
+app.listen(Number(PORT), HOST, function () {
     console.log('Serwer działa...');
 });

@@ -1,16 +1,15 @@
 package main;
 
-import main.Sound.SoundEffects;
-import main.Sound.SoundMaps;
-
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseListener;
+import java.io.File;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class GamePanel extends JPanel implements Runnable {
     //Zmienne odpowiedajace za rozdzielczość oraz maksymalna liczbe fps
-    SoundEffects eSound;
-    SoundMaps mSound;
     final int originalTitleSize = 16;
     final int scale = 3;
     public final int titleSize = originalTitleSize * scale;
@@ -19,12 +18,19 @@ public class GamePanel extends JPanel implements Runnable {
     final int screenWidth = titleSize * maxScreenCol;
     final int screenHeight = titleSize * maxScreenRow;
     int FPS = 60;
+    long t = System.currentTimeMillis();
+    long end = t+1000;
     Color brown = new Color(110, 38, 14);
-
+    int fpscounter = 0 ;
     KeyHandler keyHandler = new KeyHandler();
     Player player = new Player(this, keyHandler);
     MapaTestowa mt = new MapaTestowa();
+    MapaPoziom1 mapaPoziom1 = new MapaPoziom1();
+    endlessMode endlessMode = new endlessMode();
+    static boolean clicked = false;
+    boolean canChangePanel = false;
     Thread gameThread;
+    public int licznik = 0;
 
     //funkcja odpowiadająca za utworzenie pustego podstawego panelu, w tym momęcie podpinane sa kontrolery klawiszy
     public GamePanel() throws IOException {
@@ -39,11 +45,18 @@ public class GamePanel extends JPanel implements Runnable {
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
-        eSound = new SoundEffects();
-        mSound = new SoundMaps();
-        mSound.setFile(0);
-        mSound.play();
     }
+
+    public void stopGameThread() {
+        gameThread.stop();
+    }
+    void commands(){
+        Scanner scanner = new Scanner(System.in);
+        String command = scanner.nextLine();
+        new ConsoleCommand(command);
+    }
+
+
 
     //funkcja odpowiedzialna za utrzymanie klatkaż w odpowiedniej wartosci
     public void run() {
@@ -60,15 +73,20 @@ public class GamePanel extends JPanel implements Runnable {
             timer += (currentTime - lastTime);
             lastTime = currentTime;
             if (delta >= 1) {
-                update();
+                try {
+                    update();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
                 repaint();
                 delta--;
                 drawCount++;
             }
         }
+
     }
     //funckaja wykonujaca się raz na 1/60 sekundy
-    public void update() {
+    public void update() throws IOException {
         player.update();
     }
     //funckja odpowiedzialna za rysowanie komponentów na ekranie
@@ -83,7 +101,7 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
         g.setColor(Color.ORANGE);
         Graphics2D g2 = (Graphics2D) g;
-      switch (Config.ActiveMap){
+        switch (Config.ActiveMap){
             case "MapaTestowa":
                 mt.drawBackground(g2);
                   g.fillRect(100, 100, 100, 100);
@@ -95,11 +113,76 @@ public class GamePanel extends JPanel implements Runnable {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                break;
+            case "Endles":
+                try {
+                    endlessMode.drawBackground(g2);
+                    endlessMode.draw(g2);
+                    endlessMode.drawColider();
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+                break;
+            case "Poziom1":
+                try {
+                    mapaPoziom1.drawBackground(g2);
+                    mapaPoziom1.draw(g2);
+                    mapaPoziom1.drawColider();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
         }
-        mt.drawParticle(g2);
+        player.drawParticle(g2);
         player.draw(g2);
+        if(keyHandler.stopPressed){
+//            this.add(new JLabel("PAUZA"));
+            g2.setColor(new Color(255, 255, 255, 80));
+            g2.fillRect(0,0,screenWidth,screenHeight);
+            Image img = null;
+            try {
+                img = ImageIO.read(new File("src/main/resources/pauza.png"));
+            } catch (IOException e) {
+            }
+            g2.drawImage(img, (screenWidth - img.getWidth(null)) / 2, 150, null);
+        }
+
+        if(TrigerController.death) {
+            g2.setColor(new Color(255, 255, 255, 80));
+            g2.fillRect(0,0,screenWidth,screenHeight);
+            Image img = null;
+            Image img2 = null;
+            try {
+                img = ImageIO.read(new File("src/main/resources/lose.png"));
+                img2 = ImageIO.read(new File("src/main/resources/menubtn.png"));
+            } catch (IOException e) {
+            }
+            g2.drawImage(img, (screenWidth - img.getWidth(null)) / 2, 150, null);
+            g2.drawImage(img2, (screenWidth - 200) / 2, 450, 200, 100,null);
+
+            if(!clicked) {
+                clicked = true;
+                MouseHandler.pressMouse(this);
+                canChangePanel = true;
+            }
+        }
+
+
         g2.dispose();
         g.dispose();
+        Points points = new Points();
+        points.updatepoints();
+    }
+    void addListenerToMenuButton(JFrame frame, UserMenu userMenu, GamePanel gamePanel) {
+        if(canChangePanel) {
+            frame.remove(gamePanel);
+            frame.add(userMenu);
+            frame.repaint();
+            frame.revalidate();
+            System.gc();
+        }
+    }
+    public void dispose() {
+        gameThread = null;
     }
 
 }
