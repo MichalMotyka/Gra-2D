@@ -33,7 +33,7 @@ public class MapaTestowa implements MapInterface {
         }
     }
     //definiowanie lokalizacji obiektów na mapie
-    static int[][] drzewoLocaltion = {{1500,500},{1700,500}};
+    static int[][] drzewoLocaltion = {{930,650}, {1600,650}};
     static int[][] scianaLocation = {{400,690}};
     static int[][] kwiatLocation = {{1200,800},{1205,800},{1210,800},{1215,800},{1220,800},{1225,800},{1230,800},{1235,800},{1240,800},{1245,800},{1250,800}};
 

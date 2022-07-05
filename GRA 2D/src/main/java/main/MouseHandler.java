@@ -3,6 +3,7 @@ package main;
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 
 public class MouseHandler {
 
@@ -41,6 +42,13 @@ public class MouseHandler {
     }
 
     public static MouseListener exitGamePanel(GamePanel gamePanel, JFrame frame, UserMenu userMenu) {
+//        if(gamePanel != null) {
+//            try {
+//                gamePanel = new GamePanel();
+//            } catch (IOException ex) {
+//                throw new RuntimeException(ex);
+//            }
+//        }
         gamePanel.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {

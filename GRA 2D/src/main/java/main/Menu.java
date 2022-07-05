@@ -77,7 +77,7 @@ public class Menu extends JPanel {
         this.loginBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String tekst = JOptionPane.showInputDialog("Nazwa użytkownika");
+                String tekst = JOptionPane.showInputDialog(null, "Nazwa użytkownika", "Zaloguj się", JOptionPane.QUESTION_MESSAGE);
                 Http http = new Http();
                 String response;
                 try {
@@ -108,7 +108,7 @@ public class Menu extends JPanel {
         this.registerBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String tekst = JOptionPane.showInputDialog("Podaj nazwę użytkownika do zarejestrowania:");
+                String tekst = JOptionPane.showInputDialog(null, "Podaj nazwę użytkownika do zarejestrowania:", "Zarejestruj się", JOptionPane.QUESTION_MESSAGE );
                 Http http = new Http();
                 String response;
                 try {
